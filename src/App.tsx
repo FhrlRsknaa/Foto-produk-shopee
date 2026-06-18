@@ -176,12 +176,26 @@ export default function App() {
   const [dragOffset, setDragOffset] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Clock Update
+  // Clock Update - optimized using requestAnimationFrame to automatically sync with screen refresh rate
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
+    let animationId: number;
+    let lastSecond = -1;
+
+    const tick = () => {
+      const now = new Date();
+      const currentSecond = now.getSeconds();
+      
+      // Only trigger a state update when the actual second shifts to keep it highly optimized
+      if (currentSecond !== lastSecond) {
+        setCurrentTime(now);
+        lastSecond = currentSecond;
+      }
+      
+      animationId = requestAnimationFrame(tick);
+    };
+
+    animationId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animationId);
   }, []);
 
   const handleNext = () => {
