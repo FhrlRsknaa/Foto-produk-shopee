@@ -1,0 +1,6 @@
+{
+  "name": "Material Stack Slider",
+  "description": "Material You Android 16-themed swipable photo stack slider.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
